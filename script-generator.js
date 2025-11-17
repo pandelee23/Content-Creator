@@ -112,42 +112,69 @@ class ScriptGenerator {
     }
 
     /**
-     * Generate Section 1 using pre-written script
+     * Generate Section 1 using pre-written script (if available) or generate from scratch
      */
     generateSection1(section) {
-        // Per the notes, use the pre-written script from variantes[0].script ("VERSIÓN 4B")
+        // Check if pre-written script exists in variantes[0].script
         const variantes = section.variantes || [];
 
-        if (variantes.length === 0 || !variantes[0].script) {
-            throw new Error('Section 1 requires a pre-written script in variantes[0].script');
-        }
+        // If pre-written script exists, use it
+        if (variantes.length > 0 && variantes[0].script) {
+            let baseScript = variantes[0].script;
 
-        let baseScript = variantes[0].script;
+            // Check for extension notes
+            const notasDeUso = section.notasDeUso || '';
+            const guiaDeGanchos = section.guiaDeGanchos || '';
 
-        // Check for extension notes
-        const notasDeUso = section.notasDeUso || '';
-        const guiaDeGanchos = section.guiaDeGanchos || '';
-
-        // Look for "Extender el gancho" text in notes
-        let extension = '';
-        if (notasDeUso.includes('Extender el gancho') || notasDeUso.includes('NOTAS ADICIONALES')) {
-            // Extract extension text from notes
-            const extensionMatch = notasDeUso.match(/Extender el gancho[:\s]+([^]*?)(?=\n\n|\n(?=[A-Z])|$)/i);
-            if (extensionMatch) {
-                extension = extensionMatch[1].trim();
+            // Look for "Extender el gancho" text in notes
+            let extension = '';
+            if (notasDeUso.includes('Extender el gancho') || notasDeUso.includes('NOTAS ADICIONALES')) {
+                // Extract extension text from notes
+                const extensionMatch = notasDeUso.match(/Extender el gancho[:\s]+([^]*?)(?=\n\n|\n(?=[A-Z])|$)/i);
+                if (extensionMatch) {
+                    extension = extensionMatch[1].trim();
+                }
             }
+
+            // Combine base script with extension
+            let fullScript = baseScript;
+            if (extension) {
+                fullScript += '\n\n' + extension;
+            }
+
+            // Clean up and format
+            return this.cleanAndFormat(fullScript);
         }
 
-        // Combine base script with extension
-        let fullScript = baseScript;
-        if (extension) {
-            fullScript += '\n\n' + extension;
+        // If no pre-written script, generate Section 1 from scratch
+        const objetivo = section.objetivo || 'Capture immediate attention with a powerful hook';
+        const tecnicas = section.tecnicasNarrativas || ['Direct address', 'Pattern interrupt', 'Relatable scenario'];
+        const targetWords = section.palabrasAproximadas || 150;
+
+        // Generate hook content
+        let content = this.generateHookContent(objetivo, tecnicas, targetWords);
+
+        return this.applyEmbodimentRules(content);
+    }
+
+    /**
+     * Generate hook content for Section 1
+     */
+    generateHookContent(objetivo, tecnicas, targetWords) {
+        // Create a compelling hook based on video idea if available
+        let hook = '';
+
+        if (this.videoIdea) {
+            hook = `You're working on ${this.videoIdea.toLowerCase()}. You're putting in the effort. You're doing everything you're "supposed" to do.\n\n`;
+            hook += `But something's not clicking. The results aren't matching the effort. And you're starting to wonder if you're missing something fundamental.\n\n`;
+            hook += `Here's the truth: You're not failing because you lack knowledge. You're failing because you're approaching this the wrong way.`;
+        } else {
+            hook = `You're doing the work. You're showing up consistently. You're following all the advice.\n\n`;
+            hook += `But the breakthrough isn't coming. The momentum isn't building. And you're starting to question whether this will ever work.\n\n`;
+            hook += `Here's what no one tells you: The problem isn't your effort. It's your approach.`;
         }
 
-        // Clean up and format
-        fullScript = this.cleanAndFormat(fullScript);
-
-        return fullScript;
+        return hook;
     }
 
     /**
