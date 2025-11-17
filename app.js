@@ -4,6 +4,7 @@
  */
 
 // DOM Elements
+const apiKeyInput = document.getElementById('apiKey');
 const videoIdeaInput = document.getElementById('videoIdea');
 const jsonInput = document.getElementById('jsonInput');
 const fileInput = document.getElementById('fileInput');
@@ -19,6 +20,8 @@ const downloadAllBtn = document.getElementById('downloadAllBtn');
 // State
 let blueprint = null;
 let videoIdea = '';
+let apiKey = '';
+let claudeAI = null;
 let scriptGenerator = null;
 let generatedSections = {};
 
@@ -26,6 +29,20 @@ let generatedSections = {};
  * Initialize event listeners
  */
 function init() {
+    // Load saved API key from localStorage
+    const savedApiKey = localStorage.getItem('claude_api_key');
+    if (savedApiKey) {
+        apiKeyInput.value = savedApiKey;
+    }
+
+    // Save API key to localStorage when changed
+    apiKeyInput.addEventListener('change', () => {
+        const key = apiKeyInput.value.trim();
+        if (key) {
+            localStorage.setItem('claude_api_key', key);
+        }
+    });
+
     uploadBtn.addEventListener('click', () => fileInput.click());
     fileInput.addEventListener('change', handleFileUpload);
     initializeBtn.addEventListener('click', handleInitialize);
@@ -76,6 +93,24 @@ function handleFileUpload(event) {
 function handleInitialize() {
     hideError();
 
+    // Get and validate API key
+    apiKey = apiKeyInput.value.trim();
+
+    if (!apiKey) {
+        showError('Please enter your Claude AI API key');
+        apiKeyInput.focus();
+        return;
+    }
+
+    if (!apiKey.startsWith('sk-ant-')) {
+        showError('Invalid API key format. Claude API keys start with "sk-ant-"');
+        apiKeyInput.focus();
+        return;
+    }
+
+    // Save API key to localStorage
+    localStorage.setItem('claude_api_key', apiKey);
+
     // Get video idea
     videoIdea = videoIdeaInput.value.trim();
 
@@ -105,9 +140,17 @@ function handleInitialize() {
         }
     }
 
+    // Create Claude AI instance
+    try {
+        claudeAI = new ClaudeAI(apiKey);
+    } catch (error) {
+        showError('Failed to initialize Claude AI: ' + error.message);
+        return;
+    }
+
     // Create script generator instance
     try {
-        scriptGenerator = new ScriptGenerator(blueprint, videoIdea);
+        scriptGenerator = new ScriptGenerator(blueprint, videoIdea, claudeAI);
         scriptGenerator.parseAndInternalize();
         scriptGenerator.embodimentRules = scriptGenerator.extractEmbodimentRules();
     } catch (error) {
@@ -174,63 +217,63 @@ async function handleGenerateSection(event) {
     `;
 
     const contentDiv = document.getElementById(`section${sectionNum}Content`);
-    contentDiv.innerHTML = '<div class="loading">Generating section...</div>';
+    contentDiv.innerHTML = '<div class="loading">Generating section with Claude AI...</div>';
 
-    // Small delay to show loading state
-    setTimeout(() => {
-        try {
-            // Get the section configuration
-            const sections = blueprint.estructuraNarrativaDelGuion?.secuencias || [];
+    try {
+        // Get the section configuration
+        const sections = blueprint.estructuraNarrativaDelGuion?.secuencias || [];
 
-            if (sectionNum > sections.length) {
-                throw new Error(`Section ${sectionNum} not found in blueprint`);
-            }
-
-            const section = sections[sectionNum - 1];
-
-            // Generate the section
-            const generatedSection = scriptGenerator.generateSection(section, sectionNum - 1);
-
-            // Store it
-            generatedSections[sectionNum] = generatedSection;
-
-            // Render it
-            renderSection(contentDiv, generatedSection.content);
-
-            // Update button
-            btn.innerHTML = `
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path d="M3 8L7 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-                Regenerate Section ${sectionNum}
-            `;
-            btn.disabled = false;
-
-            // Enable next section button if exists
-            if (sectionNum < 6) {
-                const nextBtn = document.querySelector(`.btn-generate[data-section="${sectionNum + 1}"]`);
-                if (nextBtn) {
-                    nextBtn.disabled = false;
-
-                    // Scroll to next section
-                    setTimeout(() => {
-                        const nextBox = document.querySelector(`.section-box[data-section="${sectionNum + 1}"]`);
-                        if (nextBox) {
-                            nextBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        }
-                    }, 300);
-                }
-            }
-
-            hideError();
-
-        } catch (error) {
-            showError(`Failed to generate section ${sectionNum}: ${error.message}`);
-            contentDiv.innerHTML = '';
-            btn.innerHTML = originalHTML;
-            btn.disabled = false;
+        if (sectionNum > sections.length) {
+            throw new Error(`Section ${sectionNum} not found in blueprint`);
         }
-    }, 200);
+
+        const section = sections[sectionNum - 1];
+
+        // Generate the section (async call to Claude AI)
+        const generatedSection = await scriptGenerator.generateSection(section, sectionNum - 1);
+
+        // Store it
+        generatedSections[sectionNum] = generatedSection;
+
+        // Add to context for next sections
+        scriptGenerator.context += generatedSection.content + '\n\n';
+
+        // Render it
+        renderSection(contentDiv, generatedSection.content);
+
+        // Update button
+        btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8L7 12L13 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Regenerate Section ${sectionNum}
+        `;
+        btn.disabled = false;
+
+        // Enable next section button if exists
+        if (sectionNum < 6) {
+            const nextBtn = document.querySelector(`.btn-generate[data-section="${sectionNum + 1}"]`);
+            if (nextBtn) {
+                nextBtn.disabled = false;
+
+                // Scroll to next section
+                setTimeout(() => {
+                    const nextBox = document.querySelector(`.section-box[data-section="${sectionNum + 1}"]`);
+                    if (nextBox) {
+                        nextBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
+                }, 300);
+            }
+        }
+
+        hideError();
+
+    } catch (error) {
+        showError(`Failed to generate section ${sectionNum}: ${error.message}`);
+        contentDiv.innerHTML = '';
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+    }
 }
 
 /**

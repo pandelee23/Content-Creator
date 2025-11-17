@@ -105,7 +105,8 @@ main {
     color: var(--primary);
 }
 
-.video-idea-input {
+.video-idea-input,
+.api-key-input {
     width: 100%;
     padding: 0.875rem 1rem;
     border: 2px solid var(--border);
@@ -116,14 +117,38 @@ main {
     background: var(--bg-secondary);
 }
 
-.video-idea-input:focus {
+.video-idea-input:focus,
+.api-key-input:focus {
     outline: none;
     border-color: var(--border-focus);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.video-idea-input::placeholder {
+.video-idea-input::placeholder,
+.api-key-input::placeholder {
     color: var(--text-tertiary);
+}
+
+.required {
+    color: var(--error);
+    margin-left: 0.25rem;
+}
+
+.input-help {
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    line-height: 1.5;
+}
+
+.input-help a {
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.input-help a:hover {
+    text-decoration: underline;
 }
 
 .input-controls {

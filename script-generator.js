@@ -4,9 +4,10 @@
  */
 
 class ScriptGenerator {
-    constructor(blueprint, videoIdea = '') {
+    constructor(blueprint, videoIdea = '', claudeAI = null) {
         this.blueprint = blueprint;
         this.videoIdea = videoIdea;
+        this.claudeAI = claudeAI;
         this.generatedSections = [];
         this.context = '';
     }
@@ -92,17 +93,28 @@ class ScriptGenerator {
     /**
      * Generate a single section based on its configuration
      */
-    generateSection(section, index) {
+    async generateSection(section, index) {
         const sectionNumber = index + 1;
         const heading = section.nombre || `Section ${sectionNumber}`;
 
         let content = '';
 
-        // Special handling for Section 1: EL ANCLAJE (El Gancho)
-        if (sectionNumber === 1) {
-            content = this.generateSection1(section);
+        // If Claude AI is available, use it for intelligent generation
+        if (this.claudeAI) {
+            content = await this.claudeAI.generateSection(
+                this.blueprint,
+                this.videoIdea,
+                section,
+                sectionNumber,
+                this.context
+            );
         } else {
-            content = this.generateSectionContent(section, sectionNumber);
+            // Fallback to template-based generation
+            if (sectionNumber === 1) {
+                content = this.generateSection1(section);
+            } else {
+                content = this.generateSectionContent(section, sectionNumber);
+            }
         }
 
         return {
