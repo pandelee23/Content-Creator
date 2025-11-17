@@ -4,13 +4,17 @@ A production-ready web application that generates complete, professional scripts
 
 ## Features
 
+- **Video Idea Input**: Optional field to provide context for your script topic
 - **JSON-Driven Generation**: Upload or paste JSON blueprints to generate scripts
-- **Sequential Context Chaining**: Each section builds upon previous sections for coherent narrative flow
+- **Sequential Section Generation**: Generate one section at a time for maximum control
+- **Section-by-Section Workflow**: Review and regenerate individual sections as needed
+- **Context Chaining**: Each section builds upon previous sections for coherent narrative flow
 - **Archetype Embodiment**: Automatically applies persona, tone, and style rules
 - **Multi-Section Support**: Handles complex narrative structures with submomentos
+- **Individual Section Control**: Enable/disable regeneration for each section independently
 - **Production-Ready Output**: Generates markdown-formatted scripts ready for use
-- **Modern UI**: Clean, responsive interface with real-time generation
-- **Export Options**: Copy to clipboard or download as text file
+- **Modern UI**: Clean, responsive interface with real-time generation and loading states
+- **Export Options**: Copy to clipboard or download as text file (for individual sections or all at once)
 
 ## How It Works
 
@@ -45,9 +49,14 @@ The complete script is formatted with markdown headings and ready for production
 ### Quick Start
 
 1. Open `index.html` in your web browser
-2. Upload a JSON blueprint file or paste JSON directly into the input area
-3. Click "Generate Script"
-4. Copy or download your generated script
+2. (Optional) Enter your video idea/topic in the text field
+3. Upload a JSON blueprint file or paste JSON directly into the input area
+4. Click "Initialize Generation" to validate and show sections
+5. Click "Generate Section 1" to create the first section
+6. Review the generated content
+7. Click "Generate Section 2" to continue (button auto-enables after Section 1)
+8. Repeat for all 6 sections, or regenerate any section as needed
+9. Use "Copy All" or "Download All" to export your complete script
 
 ### Using a Local Server (Recommended)
 
@@ -68,6 +77,34 @@ php -S localhost:8000
 ```
 
 Then navigate to `http://localhost:8000` in your browser.
+
+## Sequential Generation Workflow
+
+The app uses a step-by-step workflow that gives you complete control over each section:
+
+### Configuration Phase
+1. **Enter Video Idea** (optional): Provide context about your video topic
+2. **Load JSON Blueprint**: Upload or paste your JSON configuration
+3. **Initialize**: Click "Initialize Generation" to validate inputs and prepare sections
+
+### Generation Phase
+The 6 sections appear in separate boxes. Each section:
+- **Starts Disabled**: Only Section 1 is enabled initially
+- **Generate on Demand**: Click the generate button to create that section
+- **Auto-Enable Next**: After generation, the next section's button becomes active
+- **Regenerate Anytime**: Click "Regenerate" to recreate any section with new content
+- **Context Aware**: Each section uses all previous sections as context
+
+### Export Phase
+- **Copy All**: Copy all generated sections to clipboard
+- **Download All**: Download as a text file (includes video idea if provided)
+- **Individual Review**: Review and edit each section separately
+
+### Benefits
+- **More Control**: Generate only the sections you need
+- **Iterative Refinement**: Regenerate sections until satisfied
+- **Clear Progress**: Visual feedback shows which sections are complete
+- **Auto-Scroll**: Automatically scrolls to the next section when ready
 
 ## JSON Blueprint Structure
 
