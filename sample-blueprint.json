@@ -1,0 +1,120 @@
+{
+  "perfilCanal": {
+    "idioma": "English",
+    "nicho": "Content Creation & Digital Marketing",
+    "audienciaPrincipal": "Content creators and entrepreneurs"
+  },
+  "arquetipoVoz": {
+    "perspectiva": {
+      "hablante": "first-person",
+      "audiencia": "second-person"
+    },
+    "relacionConAudiencia": "Mentor a discípulo",
+    "autoridad": "Calmada, absoluta, incuestionable"
+  },
+  "tonoEmocional": {
+    "tonosBase": [
+      "Conversacional",
+      "Reflexivo",
+      "Directo"
+    ],
+    "tonosAEvitar": [
+      "Entusiasmo artificial",
+      "Sarcasmo",
+      "Complejidad académica"
+    ]
+  },
+  "estiloDeRedaccion": {
+    "estructuraDeFrases": {
+      "tipo": "Mezcla de frases cortas/medianas declarativas",
+      "complejidad": "Simple y directa"
+    },
+    "vocabulario": {
+      "nivel": "Simple y accesible",
+      "evitar": "Jerga innecesaria"
+    },
+    "recursosRhetoricos": [
+      "Antítesis",
+      "Corrección directa",
+      "Preguntas retóricas"
+    ]
+  },
+  "estructuraNarrativaDelGuion": {
+    "secuencias": [
+      {
+        "nombre": "1. EL ANCLAJE (El Gancho)",
+        "objetivo": "Capturar atención inmediata",
+        "palabrasAproximadas": 150,
+        "variantes": [
+          {
+            "nombre": "VERSIÓN 4B",
+            "script": "You're creating content. You're showing up. You're doing the work. But the reach isn't coming. The engagement isn't there. And you're starting to wonder if maybe you're just not built for this.\n\nBut here's the truth: You're not failing because you lack talent. You're failing because you're creating content for the wrong audience."
+          }
+        ],
+        "notasDeUso": "Use the pre-written script from VERSIÓN 4B. NOTAS ADICIONALES: Extender el gancho: And that's not a guess. That's the hidden pattern behind every creator who burns out before they break through."
+      },
+      {
+        "nombre": "2. EL COSTE (La Tesis del Dolor)",
+        "objetivo": "Quantify the hidden price of current approach",
+        "palabrasAproximadas": 630,
+        "tecnicasNarrativas": [
+          "Usar números concretos",
+          "Metáforas de tiempo",
+          "Coste de oportunidad"
+        ],
+        "transicion": "Pausa. Luego: 'But here's the thing...'"
+      },
+      {
+        "nombre": "3. EL GIRO",
+        "objetivo": "Challenge the fundamental assumption",
+        "palabrasAproximadas": 500,
+        "tecnicasNarrativas": [
+          "Revelar el error de pensamiento",
+          "Contrastar creencia vs realidad"
+        ]
+      },
+      {
+        "nombre": "4. LA VERDAD",
+        "objetivo": "Present the core insight",
+        "palabrasAproximadas": 700,
+        "submomentos": [
+          {
+            "nombre": "A. La Ilusión",
+            "objetivo": "What most believe"
+          },
+          {
+            "nombre": "B. La Realidad",
+            "objetivo": "What actually happens"
+          },
+          {
+            "nombre": "C. La Llave",
+            "objetivo": "The key insight"
+          }
+        ]
+      },
+      {
+        "nombre": "5. LA PRAXIS",
+        "objetivo": "Show how it works in practice",
+        "palabrasAproximadas": 600,
+        "tecnicasNarrativas": [
+          "Pasos concretos",
+          "Ejemplos específicos",
+          "Sistema replicable"
+        ]
+      },
+      {
+        "nombre": "6. EL CIERRE",
+        "objetivo": "Leave them with a clear choice",
+        "palabrasAproximadas": 400,
+        "tecnicasNarrativas": [
+          "Contraste de dos caminos",
+          "Llamado a la decisión"
+        ]
+      }
+    ]
+  },
+  "calculoDeContenido": {
+    "totalPalabrasObjetivo": 2980,
+    "tiempoEstimadoLectura": "12-15 minutos"
+  }
+}
