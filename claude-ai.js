@@ -6,43 +6,37 @@
 class ClaudeAI {
     constructor(apiKey) {
         this.apiKey = apiKey;
-        this.baseURL = 'https://api.anthropic.com/v1/messages';
+        // Use local proxy endpoint instead of direct API
+        this.baseURL = '/api/claude';
         this.model = 'claude-3-5-sonnet-20241022'; // Claude 3.5 Sonnet (latest)
         this.maxTokens = 4096;
     }
 
     /**
-     * Generate content using Claude AI
+     * Generate content using Claude AI via proxy
      */
     async generateContent(prompt, temperature = 0.7) {
         try {
             const response = await fetch(this.baseURL, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
-                    'x-api-key': this.apiKey,
-                    'anthropic-version': '2023-06-01'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    model: this.model,
-                    max_tokens: this.maxTokens,
+                    apiKey: this.apiKey,
+                    prompt: prompt,
                     temperature: temperature,
-                    messages: [
-                        {
-                            role: 'user',
-                            content: prompt
-                        }
-                    ]
+                    maxTokens: this.maxTokens
                 })
             });
 
             if (!response.ok) {
                 const error = await response.json();
-                throw new Error(error.error?.message || `API request failed: ${response.status}`);
+                throw new Error(error.error || `Request failed: ${response.status}`);
             }
 
             const data = await response.json();
-            return data.content[0].text;
+            return data.content;
 
         } catch (error) {
             throw new Error(`Claude AI Error: ${error.message}`);

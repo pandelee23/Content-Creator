@@ -16,13 +16,17 @@ Thumbs.db
 *.tmp
 *.temp
 
-# Node modules (if added later)
+# Node modules
 node_modules/
 
-# Build outputs (if added later)
+# Build outputs
 dist/
 build/
 
 # Environment files
 .env
 .env.local
+
+# Package lock files (optional - uncomment if needed)
+# package-lock.json
+

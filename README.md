@@ -66,43 +66,44 @@ The complete script is formatted with markdown headings and ready for production
 ### Quick Start
 
 #### Prerequisites
-- A Claude AI API key from [console.anthropic.com](https://console.anthropic.com/)
-- A JSON blueprint defining your voice, tone, and structure
+- **Node.js** (v14 or higher) - [Download here](https://nodejs.org/)
+- A **Claude AI API key** from [console.anthropic.com](https://console.anthropic.com/)
+- A **JSON blueprint** defining your voice, tone, and structure
 
-#### Steps
+#### Installation & Setup
 
-1. Open `index.html` in your web browser (or use a local server - see below)
-2. **Enter your Claude AI API key** (it will be saved locally for future use)
-3. (Optional) Enter your video idea/topic in the text field
-4. Upload a JSON blueprint file or paste JSON directly into the input area
-5. Click **"Initialize Generation"** to validate inputs and show sections
-6. Click **"Generate Section 1"** - Claude AI creates the hook based on your blueprint
-7. Review the AI-generated content
-8. Click **"Generate Section 2"** to continue (button auto-enables after Section 1)
-9. Repeat for all 6 sections, or regenerate any section as needed
-10. Use **"Copy All"** or **"Download All"** to export your complete script
+**⚠️ Important**: This app requires a backend server to proxy Claude AI API requests (browsers block direct API calls due to CORS).
 
-**Note**: Each section generation takes 5-15 seconds as Claude AI crafts personalized content following your blueprint specifications.
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-### Using a Local Server (Recommended)
+2. **Start the server:**
+   ```bash
+   npm start
+   ```
 
-For the best experience, run the app with a local server:
+   You'll see:
+   ```
+   🚀 AI Script Generator Server
+   📡 Server running on http://localhost:3000
+   ✅ Ready to generate scripts!
+   ```
 
-```bash
-# Python 3
-python -m http.server 8000
+3. **Open your browser:**
+   - Navigate to **http://localhost:3000**
 
-# Python 2
-python -m SimpleHTTPServer 8000
+4. **Use the app:**
+   - Enter your Claude AI API key (saved locally for future use)
+   - (Optional) Enter your video idea/topic
+   - Upload or paste your JSON blueprint
+   - Click **"Initialize Generation"**
+   - Generate sections one by one with Claude AI!
 
-# Node.js (with http-server)
-npx http-server -p 8000
+**Note**: Each section generation takes 5-15 seconds as Claude AI crafts personalized content.
 
-# PHP
-php -S localhost:8000
-```
-
-Then navigate to `http://localhost:8000` in your browser.
+📖 **Detailed setup guide**: See [SETUP.md](SETUP.md) for troubleshooting and deployment options.
 
 ### API Key & Privacy
 
@@ -115,9 +116,10 @@ Then navigate to `http://localhost:8000` in your browser.
 
 #### Security & Privacy
 - Your API key is **stored locally** in your browser's localStorage
-- The key is **never sent to our servers** - only directly to Anthropic's API
-- All API calls go directly from your browser to Claude AI
+- The backend server **only proxies requests** to Claude AI (doesn't store your key)
+- All API calls go through the proxy: Browser → Node.js Server → Claude AI
 - You can clear your key anytime by clearing browser data
+- The server runs **locally on your machine** (not a remote server)
 
 #### Costs
 - This app uses the **Claude 3.5 Sonnet** model
