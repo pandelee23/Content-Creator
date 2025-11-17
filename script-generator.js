@@ -4,8 +4,9 @@
  */
 
 class ScriptGenerator {
-    constructor(blueprint) {
+    constructor(blueprint, videoIdea = '') {
         this.blueprint = blueprint;
+        this.videoIdea = videoIdea;
         this.generatedSections = [];
         this.context = '';
     }

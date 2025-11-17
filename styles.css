@@ -1,6 +1,6 @@
 /**
  * AI Script Generator Styles
- * Modern, clean, production-ready design
+ * Modern, clean, production-ready design with sequential section generation
  */
 
 :root {
@@ -42,7 +42,7 @@ body {
 }
 
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
     background: var(--bg-primary);
     border-radius: var(--radius-lg);
@@ -71,31 +71,66 @@ header h1 {
 
 /* Main Content */
 main {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
     padding: 2rem;
 }
 
-@media (max-width: 1024px) {
-    main {
-        grid-template-columns: 1fr;
-    }
+/* Configuration Section */
+.config-section {
+    margin-bottom: 2rem;
 }
 
-/* Input Section */
-.input-section h2,
-.output-section h2 {
+.config-section h2 {
     font-size: 1.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: var(--text-primary);
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.025em;
+}
+
+.input-label svg {
+    color: var(--primary);
+}
+
+.video-idea-input {
+    width: 100%;
+    padding: 0.875rem 1rem;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: var(--bg-secondary);
+}
+
+.video-idea-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.video-idea-input::placeholder {
+    color: var(--text-tertiary);
 }
 
 .input-controls {
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
 }
 
 .file-name {
@@ -105,8 +140,8 @@ main {
 
 #jsonInput {
     width: 100%;
-    min-height: 300px;
-    max-height: 500px;
+    min-height: 200px;
+    max-height: 400px;
     padding: 1rem;
     border: 2px solid var(--border);
     border-radius: var(--radius-md);
@@ -138,6 +173,7 @@ main {
 .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.5rem;
     border: none;
@@ -183,6 +219,21 @@ main {
 .btn svg {
     width: 16px;
     height: 16px;
+    flex-shrink: 0;
+}
+
+/* Spinning animation for loading icon */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinning {
+    animation: spin 1s linear infinite;
 }
 
 /* Error Message */
@@ -196,81 +247,124 @@ main {
     font-size: 0.875rem;
 }
 
-/* Output Section */
-.output-section {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+/* Sections Container */
+.sections-container {
+    border-top: 2px solid var(--border);
+    padding-top: 2rem;
+    margin-top: 2rem;
 }
 
-.output-header {
+.sections-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-.output-controls {
+.sections-header h2 {
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.sections-controls {
     display: flex;
     gap: 0.5rem;
 }
 
-.output-content {
-    flex: 1;
-    min-height: 300px;
-    max-height: 600px;
-    overflow-y: auto;
-    padding: 1.5rem;
-    border: 2px solid var(--border);
-    border-radius: var(--radius-md);
+/* Section Box */
+.section-box {
     background: var(--bg-secondary);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s;
 }
 
-.output-content:empty {
+.section-box:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border);
+}
+
+.section-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0;
+}
+
+.section-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.section-content {
+    min-height: 100px;
+    padding: 1rem;
+    background: white;
+    border-radius: var(--radius-md);
+    line-height: 1.7;
+}
+
+.section-content:empty {
     display: flex;
     align-items: center;
     justify-content: center;
+    min-height: 100px;
 }
 
-.output-content:empty::before {
-    content: 'Your generated script will appear here';
+.section-content:empty::before {
+    content: 'Click "Generate" to create this section';
     color: var(--text-tertiary);
     font-style: italic;
+    font-size: 0.875rem;
 }
 
-/* Script Formatting */
-.output-content h1 {
-    font-size: 1.875rem;
+/* Section Content Formatting */
+.section-content h1 {
+    font-size: 1.75rem;
     font-weight: 700;
     margin: 1.5rem 0 1rem 0;
     color: var(--text-primary);
-    border-bottom: 2px solid var(--border);
-    padding-bottom: 0.5rem;
 }
 
-.output-content h2 {
+.section-content h2 {
     font-size: 1.5rem;
     font-weight: 600;
-    margin: 2rem 0 1rem 0;
+    margin: 1.5rem 0 1rem 0;
     color: var(--primary);
 }
 
-.output-content h2:first-child {
+.section-content h2:first-child,
+.section-content h1:first-child {
     margin-top: 0;
 }
 
-.output-content p {
+.section-content p {
     margin-bottom: 1rem;
-    line-height: 1.7;
+    line-height: 1.8;
     color: var(--text-primary);
 }
 
-.output-content strong {
+.section-content p:last-child {
+    margin-bottom: 0;
+}
+
+.section-content strong {
     font-weight: 600;
     color: var(--text-primary);
 }
 
-.output-content em {
+.section-content em {
     font-style: italic;
 }
 
@@ -283,24 +377,24 @@ main {
 }
 
 /* Scrollbar Styling */
-.output-content::-webkit-scrollbar,
+.section-content::-webkit-scrollbar,
 #jsonInput::-webkit-scrollbar {
     width: 8px;
 }
 
-.output-content::-webkit-scrollbar-track,
+.section-content::-webkit-scrollbar-track,
 #jsonInput::-webkit-scrollbar-track {
     background: var(--bg-tertiary);
     border-radius: var(--radius-sm);
 }
 
-.output-content::-webkit-scrollbar-thumb,
+.section-content::-webkit-scrollbar-thumb,
 #jsonInput::-webkit-scrollbar-thumb {
     background: var(--secondary);
     border-radius: var(--radius-sm);
 }
 
-.output-content::-webkit-scrollbar-thumb:hover,
+.section-content::-webkit-scrollbar-thumb:hover,
 #jsonInput::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-hover);
 }
@@ -341,18 +435,36 @@ footer {
         flex-direction: column;
     }
 
-    .output-header {
+    .sections-header {
         flex-direction: column;
         align-items: stretch;
         gap: 1rem;
     }
 
-    .output-controls {
+    .sections-controls {
         justify-content: stretch;
+    }
+
+    .section-header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+
+    .section-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
     }
 
     .btn-small {
         flex: 1;
+    }
+
+    .section-box {
+        padding: 1rem;
     }
 }
 
@@ -368,8 +480,26 @@ footer {
     }
 }
 
-.output-content h1,
-.output-content h2,
-.output-content p {
+.section-content h1,
+.section-content h2,
+.section-content p {
     animation: fadeIn 0.3s ease-out;
+}
+
+.section-box {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Highlight effect for newly enabled sections */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 0 8px rgba(37, 99, 235, 0);
+    }
+}
+
+.section-box[data-section]:has(.btn-generate:not(:disabled):not(:has(svg.spinning))) {
+    position: relative;
 }

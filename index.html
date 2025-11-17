@@ -14,52 +14,175 @@
         </header>
 
         <main>
-            <div class="input-section">
-                <h2>Input JSON Blueprint</h2>
-                <div class="input-controls">
-                    <button id="uploadBtn" class="btn btn-secondary">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                            <path d="M10 4V16M10 4L6 8M10 4L14 8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M4 12V16C4 17.1046 4.89543 18 6 18H14C15.1046 18 16 17.1046 16 16V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            <div class="config-section">
+                <h2>Configuration</h2>
+
+                <!-- Video Idea Input -->
+                <div class="input-group">
+                    <label for="videoIdea" class="input-label">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <path d="M2 9L9 2L16 9M9 3V16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
                         </svg>
-                        Upload JSON File
-                    </button>
-                    <input type="file" id="fileInput" accept=".json" style="display: none;">
-                    <span id="fileName" class="file-name"></span>
+                        Video Idea / Topic
+                    </label>
+                    <input
+                        type="text"
+                        id="videoIdea"
+                        placeholder="Enter your video idea or topic (e.g., 'How to build audience as a content creator')"
+                        class="video-idea-input"
+                    />
                 </div>
-                <textarea
-                    id="jsonInput"
-                    placeholder="Paste your JSON blueprint here or upload a file..."
-                    spellcheck="false"
-                ></textarea>
+
+                <!-- JSON Blueprint -->
+                <div class="input-group">
+                    <label for="jsonInput" class="input-label">
+                        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                            <rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2"/>
+                            <path d="M6 6H12M6 9H12M6 12H9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                        JSON Blueprint
+                    </label>
+                    <div class="input-controls">
+                        <button id="uploadBtn" class="btn btn-secondary btn-small">
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                <path d="M8 3V13M8 3L5 6M8 3L11 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M3 10V13C3 13.5523 3.44772 14 4 14H12C12.5523 14 13 13.5523 13 13V10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                            Upload JSON
+                        </button>
+                        <input type="file" id="fileInput" accept=".json" style="display: none;">
+                        <span id="fileName" class="file-name"></span>
+                    </div>
+                    <textarea
+                        id="jsonInput"
+                        placeholder="Paste your JSON blueprint here or upload a file..."
+                        spellcheck="false"
+                    ></textarea>
+                </div>
+
                 <div class="action-bar">
-                    <button id="generateBtn" class="btn btn-primary">Generate Script</button>
-                    <button id="clearBtn" class="btn btn-secondary">Clear</button>
+                    <button id="initializeBtn" class="btn btn-primary">Initialize Generation</button>
+                    <button id="clearBtn" class="btn btn-secondary">Clear All</button>
                 </div>
                 <div id="errorMessage" class="error-message" style="display: none;"></div>
             </div>
 
-            <div class="output-section">
-                <div class="output-header">
-                    <h2>Generated Script</h2>
-                    <div class="output-controls">
-                        <button id="copyBtn" class="btn btn-small" title="Copy to clipboard">
+            <div class="sections-container" id="sectionsContainer" style="display: none;">
+                <div class="sections-header">
+                    <h2>Script Sections</h2>
+                    <div class="sections-controls">
+                        <button id="copyAllBtn" class="btn btn-small" title="Copy all sections">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <path d="M4 4V2C4 1.44772 4.44772 1 5 1H13C13.5523 1 14 1.44772 14 2V10C14 10.5523 13.5523 11 13 11H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                                 <rect x="2" y="5" width="9" height="10" rx="1" stroke="currentColor" stroke-width="1.5"/>
                             </svg>
-                            Copy
+                            Copy All
                         </button>
-                        <button id="downloadBtn" class="btn btn-small" title="Download as text file">
+                        <button id="downloadAllBtn" class="btn btn-small" title="Download all sections">
                             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                                 <path d="M8 2V11M8 11L11 8M8 11L5 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                                 <path d="M2 11V13C2 14.1046 2.89543 15 4 15H12C13.1046 15 14 14.1046 14 13V11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
                             </svg>
-                            Download
+                            Download All
                         </button>
                     </div>
                 </div>
-                <div id="output" class="output-content"></div>
+
+                <!-- Section 1 -->
+                <div class="section-box" data-section="1">
+                    <div class="section-header">
+                        <h3 class="section-title">Section 1: EL ANCLAJE (El Gancho)</h3>
+                        <div class="section-actions">
+                            <button class="btn btn-primary btn-generate" data-section="1">
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3L13 8L8 13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Generate Section 1
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content" id="section1Content"></div>
+                </div>
+
+                <!-- Section 2 -->
+                <div class="section-box" data-section="2">
+                    <div class="section-header">
+                        <h3 class="section-title">Section 2: EL COSTE (La Tesis del Dolor)</h3>
+                        <div class="section-actions">
+                            <button class="btn btn-primary btn-generate" data-section="2" disabled>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3L13 8L8 13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Generate Section 2
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content" id="section2Content"></div>
+                </div>
+
+                <!-- Section 3 -->
+                <div class="section-box" data-section="3">
+                    <div class="section-header">
+                        <h3 class="section-title">Section 3: EL GIRO</h3>
+                        <div class="section-actions">
+                            <button class="btn btn-primary btn-generate" data-section="3" disabled>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3L13 8L8 13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Generate Section 3
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content" id="section3Content"></div>
+                </div>
+
+                <!-- Section 4 -->
+                <div class="section-box" data-section="4">
+                    <div class="section-header">
+                        <h3 class="section-title">Section 4: LA VERDAD</h3>
+                        <div class="section-actions">
+                            <button class="btn btn-primary btn-generate" data-section="4" disabled>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3L13 8L8 13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Generate Section 4
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content" id="section4Content"></div>
+                </div>
+
+                <!-- Section 5 -->
+                <div class="section-box" data-section="5">
+                    <div class="section-header">
+                        <h3 class="section-title">Section 5: LA PRAXIS</h3>
+                        <div class="section-actions">
+                            <button class="btn btn-primary btn-generate" data-section="5" disabled>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3L13 8L8 13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Generate Section 5
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content" id="section5Content"></div>
+                </div>
+
+                <!-- Section 6 -->
+                <div class="section-box" data-section="6">
+                    <div class="section-header">
+                        <h3 class="section-title">Section 6: EL CIERRE</h3>
+                        <div class="section-actions">
+                            <button class="btn btn-primary btn-generate" data-section="6" disabled>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M8 3L13 8L8 13M3 8H13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                Generate Section 6
+                            </button>
+                        </div>
+                    </div>
+                    <div class="section-content" id="section6Content"></div>
+                </div>
             </div>
         </main>
 
